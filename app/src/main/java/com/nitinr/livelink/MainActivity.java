@@ -6,7 +6,12 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -40,7 +45,21 @@ public class MainActivity extends AppCompatActivity {
         assert arFragment != null;
         arFragment.getArSceneView().getPlaneRenderer().setEnabled(false);
 
+//        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//        View vi = inflater.inflate(R.layout.activity_renderable, null);
+//
+//        TextView nameView = (TextView)vi.findViewById(R.id.name);
+//        nameView.setText("hello");
+
         createRenderable();
+
+//        final Handler handler = new Handler(Looper.getMainLooper());
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                createRenderable();
+//            }
+//        }, 5000);
     }
 
     public static boolean checkIsSupportedDeviceOrFinish(final Activity activity) {
@@ -66,6 +85,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addToScene(ViewRenderable viewRenderable) {
+//        TextView tv = viewRenderable.getView().findViewById(R.id.name);
+//        tv.setText("Testing");
+
         Vector3 forward = arFragment.getArSceneView().getScene().getCamera().getForward();
         Vector3 worldPosition = arFragment.getArSceneView().getScene().getCamera().getWorldPosition();
         Vector3 position = Vector3.add(forward, worldPosition);
