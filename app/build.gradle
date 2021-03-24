@@ -45,6 +45,8 @@ dependencies {
 
     // Alternatively, use ArSceneView without the UX dependency.
     implementation 'com.google.ar.sceneform:core:1.15.0'
+
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.17'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
