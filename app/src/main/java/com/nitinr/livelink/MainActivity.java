@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
             byteBufferV.get(bytes, byteBufferY.remaining() + byteBufferV.remaining(), byteBufferU.remaining());
 
 
-            String base64 = Base64.encodeToString(bytes, Base64.DEFAULT);
+            //String base64 = Base64.encodeToString(bytes, Base64.DEFAULT);
 //            Log.d(TAG, "START");
 //            Log.d(TAG, base64);
 //            Log.d(TAG, "END");
