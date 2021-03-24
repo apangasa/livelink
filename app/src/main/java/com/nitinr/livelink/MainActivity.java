@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 createRenderable(false);
             }
-        }, 5000);
+        }, 20000);
 
         //arFragment.getArSceneView().getScene().addOnUpdateListener(this::onSceneUpdate);
         //onSceneUpdate(null);
@@ -110,6 +110,14 @@ public class MainActivity extends AppCompatActivity {
         Node render = new Node();
         render.setParent(node);
         render.setRenderable(viewRenderable);
+
+        final Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+               node.setParent(null);
+            }
+        }, 20000);
     }
 
     private void onSceneUpdate(FrameTime frameTime) {
