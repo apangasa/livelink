@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                 .build()
                 .thenAccept(this::addToScene);
     }
-    
+
 
     private void addToScene(ViewRenderable viewRenderable) {
         this.viewRenderable = viewRenderable;
@@ -105,6 +105,14 @@ public class MainActivity extends AppCompatActivity {
         Node render = new Node();
         render.setParent(node);
         render.setRenderable(viewRenderable);
+
+        final Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                node.setParent(null);
+            }
+        }, 5000);
     }
 
     private void onSceneUpdate(FrameTime frameTime) {
