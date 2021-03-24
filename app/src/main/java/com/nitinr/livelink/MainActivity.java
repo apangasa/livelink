@@ -52,16 +52,18 @@ public class MainActivity extends AppCompatActivity {
         assert arFragment != null;
         arFragment.getArSceneView().getPlaneRenderer().setEnabled(false);
 
-        createRenderable();
+        createRenderable(true);
 
-//        VideoView vid = viewRenderable.getView().findViewById(R.id.videoView);
-//        Uri uri = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.brawl);
-//        vid.setVideoURI(uri);
-//        vid.start();
+        final Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                createRenderable(false);
+            }
+        }, 5000);
+
         //arFragment.getArSceneView().getScene().addOnUpdateListener(this::onSceneUpdate);
         //onSceneUpdate(null);
-
-        //playAnimation();
     }
 
     public static boolean checkIsSupportedDeviceOrFinish(final Activity activity) {
@@ -79,9 +81,12 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    private void createRenderable() {
+    private void createRenderable(boolean isGif) {
+
+        int layout = (isGif)? R.layout.activity_animation : R.layout.activity_renderable;
+
         ViewRenderable.builder()
-                .setView(this, R.layout.activity_renderable)
+                .setView(this, layout)
                 .build()
                 .thenAccept(this::addToScene);
     }
@@ -105,14 +110,6 @@ public class MainActivity extends AppCompatActivity {
         Node render = new Node();
         render.setParent(node);
         render.setRenderable(viewRenderable);
-
-        final Handler handler = new Handler(Looper.getMainLooper());
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                node.setParent(null);
-            }
-        }, 5000);
     }
 
     private void onSceneUpdate(FrameTime frameTime) {
