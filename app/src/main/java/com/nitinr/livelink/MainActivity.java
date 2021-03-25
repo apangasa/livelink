@@ -52,18 +52,28 @@ public class MainActivity extends AppCompatActivity {
         assert arFragment != null;
         arFragment.getArSceneView().getPlaneRenderer().setEnabled(false);
 
-        createRenderable(true);
+//        createRenderable(true);
+//
+//        final Handler handler = new Handler(Looper.getMainLooper());
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                createRenderable(false);
+//            }
+//        }, 20000);
+
+        //arFragment.getArSceneView().getScene().addOnUpdateListener(this::onSceneUpdate);
+        //onSceneUpdate(null);
+        SttService sttService = SttService.getInstance(MainActivity.this);
+        sttService.startSpeechToText();
 
         final Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                createRenderable(false);
-            }
-        }, 20000);
-
-        //arFragment.getArSceneView().getScene().addOnUpdateListener(this::onSceneUpdate);
-        //onSceneUpdate(null);
+                sttService.stopSpeechToText();
+        }
+        }, 5000);
     }
 
     public static boolean checkIsSupportedDeviceOrFinish(final Activity activity) {
