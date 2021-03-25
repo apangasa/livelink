@@ -92,6 +92,7 @@ class Open extends React.Component {
     <div>
     <Landingpage></Landingpage>
     <Testimonial></Testimonial>
+    <Footer></Footer>
     </div>
     )
   }
