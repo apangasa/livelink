@@ -6,7 +6,7 @@ import  {  FirebaseAuthConsumer,
 } from '@react-firebase/auth';
 import firebase from "firebase/app";
 import "firebase/auth";
-
+import Open from './Open.js';
 import React from 'react';
 class App extends React.Component {
   constructor(props) {
@@ -22,6 +22,7 @@ class App extends React.Component {
   render() {
     return (
       <>
+      {/*<>
       <IfFirebaseUnAuthed>
       <button
           onClick={() => {
@@ -43,6 +44,8 @@ class App extends React.Component {
         <p> your signed in </p>
         </IfFirebaseAuthed>
       <p> hello world </p>
+      </>*/}
+      <Open />
       </>
     )
   }
