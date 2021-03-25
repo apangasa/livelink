@@ -1,12 +1,17 @@
 package com.nitinr.livelink;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
-import android.widget.Toast;
+
+import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -71,9 +76,6 @@ public class SttService {
                 if (queries != null) {
                     text = queries.get(0);
 
-                    Toast.makeText(context, text, Toast.LENGTH_LONG)
-                            .show();
-
                     text = "";
                 }
             }
@@ -97,7 +99,16 @@ public class SttService {
         return SttService_instance;
     }
 
+    private void checkVoicePermission() {
+        if (!(ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED)) {
+            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + context.getApplicationContext().getPackageName()));
+            context.startActivity(intent);
+        }
+    }
+
     public void startSpeechToText() {
+        checkVoicePermission();
+
         speechRecognizer.startListening(speechRecognizerIntent);
     }
 

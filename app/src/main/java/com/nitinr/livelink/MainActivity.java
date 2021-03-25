@@ -2,27 +2,23 @@ package com.nitinr.livelink;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
+
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.media.Image;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
-import android.widget.VideoView;
 
 
 import com.google.ar.core.exceptions.NotYetAvailableException;
 import com.google.ar.sceneform.FrameTime;
 import com.google.ar.sceneform.Node;
-import com.google.ar.sceneform.math.Vector3;
-import com.google.ar.sceneform.rendering.Color;
-import com.google.ar.sceneform.rendering.ExternalTexture;
-import com.google.ar.sceneform.rendering.ModelRenderable;
+import com.google.ar.sceneform.math.Vector3;;
 import com.google.ar.sceneform.rendering.ViewRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
@@ -52,23 +48,24 @@ public class MainActivity extends AppCompatActivity {
         assert arFragment != null;
         arFragment.getArSceneView().getPlaneRenderer().setEnabled(false);
 
-//        createRenderable(true);
-//
-//        final Handler handler = new Handler(Looper.getMainLooper());
-//        handler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                createRenderable(false);
-//            }
-//        }, 20000);
-
-        //arFragment.getArSceneView().getScene().addOnUpdateListener(this::onSceneUpdate);
-        //onSceneUpdate(null);
-        SttService sttService = SttService.getInstance(MainActivity.this);
-        sttService.startSpeechToText();
+        createRenderable(true);
 
         final Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                createRenderable(false);
+            }
+        }, 20000);
+
+        arFragment.getArSceneView().getScene().addOnUpdateListener(this::onSceneUpdate);
+        onSceneUpdate(null);
+
+        SttService sttService = SttService.getInstance(MainActivity.this);
+        sttService.startSpeechToText();
+
+        final Handler handler2 = new Handler(Looper.getMainLooper());
+        handler2.postDelayed(new Runnable() {
             @Override
             public void run() {
                 sttService.stopSpeechToText();
