@@ -1,0 +1,179 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
+@import url("https://fonts.googleapis.com/css?family=Manrope:400,500");
+
+@font-face {
+  font-family: "Nanum Pen-Regular";
+  font-style: normal;
+  font-weight: 400;
+  src: url("https://fonts.animaapp.com/NanumPen-Regular") format("truetype");
+}
+
+* {
+  box-sizing: border-box;
+}
+.about {
+  letter-spacing: 0px;
+  line-height: 26px;
+  min-height: 26px;
+  white-space: nowrap;
+}
+.careers {
+  letter-spacing: 0px;
+  line-height: 26px;
+  margin-top: 12px;
+  min-height: 26px;
+  white-space: nowrap;
+}
+.col-1 {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  height: 202px;
+  margin-left: 165px;
+  margin-top: 10px;
+  overflow: hidden;
+  width: 160px;
+}
+.col-2 {
+  align-items: flex-start;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  height: 240px;
+  margin-bottom: 3px;
+  margin-left: 30px;
+  overflow: hidden;
+  width: 160px;
+}
+.company {
+  letter-spacing: 0px;
+  line-height: 30px;
+  min-height: 30px;
+  white-space: nowrap;
+}
+.features {
+  align-items: flex-end;
+  display: flex;
+  height: 26px;
+  margin-top: 12px;
+  overflow: hidden;
+  width: 101px;
+}
+.features-1 {
+  letter-spacing: 0px;
+  line-height: 26px;
+  min-height: 26px;
+  min-width: 68px;
+  white-space: nowrap;
+}
+.frame-3 {
+  align-items: flex-start;
+  display: flex;
+  height: 343px;
+  padding: 40px 115px;
+  width: 1353px;
+}
+.image-7 {
+  height: 219px;
+  object-fit: cover;
+  width: 403px;
+}
+.list-items {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  height: 140px;
+  margin-top: 32px;
+  overflow: hidden;
+  width: 160px;
+}
+.list-items-1 {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  height: 178px;
+  margin-top: 32px;
+  overflow: hidden;
+  width: 160px;
+}
+.manrope-medium-cultured-pearl-20px {
+  color: var(--cultured-pearl);
+  font-family: "Manrope", Helvetica;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+}
+.manrope-normal-athens-gray-16px {
+  color: var(--athens-gray);
+  font-family: "Manrope", Helvetica;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+}
+.nanumpen-regular-normal-scooter-20px {
+  color: var(--scooter);
+  font-family: "Nanum Pen-Regular", Helvetica;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+}
+.new {
+  letter-spacing: 0px;
+  line-height: 24px;
+  margin-left: 6px;
+  min-height: 24px;
+  min-width: 29px;
+  white-space: nowrap;
+}
+.overview {
+  letter-spacing: 0px;
+  line-height: 26px;
+  min-height: 26px;
+  white-space: nowrap;
+}
+.partners {
+  letter-spacing: 0px;
+  line-height: 26px;
+  margin-top: 12px;
+  min-height: 26px;
+  white-space: nowrap;
+}
+.place {
+  letter-spacing: 0px;
+  line-height: 26px;
+  margin-top: 12px;
+  min-height: 26px;
+  white-space: nowrap;
+}
+.press {
+  letter-spacing: 0px;
+  line-height: 26px;
+  margin-top: 12px;
+  min-height: 26px;
+  white-space: nowrap;
+}
+.product {
+  letter-spacing: 0px;
+  line-height: 30px;
+  min-height: 30px;
+  white-space: nowrap;
+}
+.releases {
+  letter-spacing: 0px;
+  line-height: 26px;
+  margin-top: 12px;
+  min-height: 26px;
+  white-space: nowrap;
+}
+.tutorials {
+  letter-spacing: 0px;
+  line-height: 26px;
+  margin-top: 12px;
+  min-height: 26px;
+  white-space: nowrap;
+}
+:root {
+  --athens-gray: rgba(238, 239, 244, 1);
+  --cultured-pearl: rgba(244, 245, 247, 1);
+  --scooter: rgba(46, 197, 206, 1);
+}

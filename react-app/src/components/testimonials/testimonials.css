@@ -1,0 +1,224 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
+@import url("https://fonts.googleapis.com/css?family=Manrope:400,700,500,800");
+* {
+  box-sizing: border-box;
+}
+.manrope-bold-white-18px {
+  color: white;
+  font-family: "Manrope", Helvetica;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+}
+.manrope-extra-bold-white-48px {
+  color: white;
+  font-family: "Manrope", Helvetica;
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 800;
+}
+.manrope-medium-eerie-black-18px {
+  color: var(--eerie-black);
+  font-family: "Manrope", Helvetica;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+}
+.manrope-normal-eerie-black-14px {
+  color: var(--eerie-black);
+  font-family: "Manrope", Helvetica;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+}
+.manrope-normal-white-14px {
+  color: white;
+  font-family: "Manrope", Helvetica;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+}
+.testimonial {
+  align-items: flex-start;
+  background-color: var(--medium-purple);
+  display: flex;
+  height: 610px;
+  width: 1440px;
+}
+.testimonial .card {
+  height: 272px;
+  left: 0px;
+  position: absolute;
+  top: 0px;
+  width: 580px;
+}
+.testimonial .card-1 {
+  height: 272px;
+  left: 0px;
+  position: absolute;
+  top: 118px;
+  width: 580px;
+}
+.testimonial .cards-testimonial-3 {
+  align-items: flex-start;
+  display: flex;
+  height: 304px;
+  justify-content: flex-end;
+  margin-left: 85px;
+  min-width: 540px;
+}
+.testimonial .ceo-infinera {
+  left: 283px;
+  letter-spacing: 0px;
+  line-height: 24px;
+  position: absolute;
+  top: 415px;
+  white-space: nowrap;
+}
+.testimonial .content {
+  left: 52px;
+  letter-spacing: 0px;
+  line-height: 24px;
+  position: absolute;
+  text-align: center;
+  top: 196px;
+  width: 478px;
+}
+.testimonial .flex-row {
+  align-items: flex-end;
+  display: flex;
+  margin-top: 67px;
+  min-width: 1205px;
+}
+.testimonial .image {
+  height: 149px;
+  transform: rotate(-180deg);
+  width: 176px;
+}
+.testimonial .image-1 {
+  height: 63px;
+  margin-top: -0.12px;
+  object-fit: cover;
+  width: 48px;
+}
+.testimonial .incredible-experienc {
+  left: 52px;
+  letter-spacing: 0px;
+  line-height: 28px;
+  position: absolute;
+  text-align: center;
+  top: 42px;
+  white-space: nowrap;
+  width: 478px;
+}
+.testimonial .name {
+  letter-spacing: 0px;
+  line-height: 28px;
+  margin-left: 16px;
+  min-height: 28px;
+  min-width: 112px;
+  white-space: nowrap;
+}
+.testimonial .name-1 {
+  align-self: center;
+  letter-spacing: 0px;
+  line-height: 28px;
+  margin-left: 16px;
+  min-height: 28px;
+  min-width: 102px;
+  white-space: nowrap;
+}
+.testimonial .overlap-group {
+  height: 314px;
+  position: relative;
+  width: 580px;
+}
+.testimonial .overlap-group1 {
+  height: 439px;
+  margin-top: -128px;
+  position: relative;
+  width: 629px;
+}
+.testimonial .person-details {
+  background-position: 50% 50%;
+  background-size: cover;
+  height: 56px;
+  width: 56px;
+}
+.testimonial .quote-mark {
+  align-items: flex-start;
+  display: flex;
+  height: 149px;
+  left: 453px;
+  opacity: 0.2;
+  overflow: hidden;
+  position: absolute;
+  top: 0px;
+  transform: rotate(180deg);
+  width: 176px;
+}
+.testimonial .section-title {
+  letter-spacing: 0px;
+  line-height: 64px;
+  min-height: 64px;
+  white-space: nowrap;
+}
+.testimonial .title {
+  left: 52px;
+  letter-spacing: 0px;
+  line-height: 28px;
+  position: absolute;
+  text-align: center;
+  top: 160px;
+  white-space: nowrap;
+  width: 478px;
+}
+.testimonial .title-8-col-left-align {
+  align-items: flex-start;
+  display: flex;
+  height: 64px;
+  margin-left: 20px;
+  overflow: hidden;
+  width: 730px;
+}
+.testimonial .we-had-an-incredible {
+  left: 52px;
+  letter-spacing: 0px;
+  line-height: 24px;
+  position: absolute;
+  text-align: center;
+  top: 78px;
+  width: 478px;
+}
+.testimonial .whole-testimonial {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  height: 596px;
+  padding: 56px 88px;
+  width: 1440px;
+}
+.testimonial .x-client-details-2-white-text {
+  align-items: center;
+  display: flex;
+  height: 56px;
+  left: 180px;
+  overflow: hidden;
+  position: absolute;
+  top: 258px;
+  width: 182px;
+}
+.testimonial .x-client-details-2-white-text-1 {
+  align-items: flex-start;
+  display: flex;
+  height: 63px;
+  left: 221px;
+  overflow: hidden;
+  position: absolute;
+  top: 369px;
+  width: 164px;
+}
+:root {
+  --eerie-black: rgba(24, 25, 31, 1);
+  --medium-purple: rgba(144, 108, 224, 1);
+}
