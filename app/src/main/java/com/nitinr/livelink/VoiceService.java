@@ -5,6 +5,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
+import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -225,13 +226,10 @@ public class VoiceService extends Service
         @Override
         public void onReadyForSpeech(Bundle params)
         {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
-            {
-                mIsCountDownOn = true;
-                mNoSpeechCountDown.start();
+            mIsCountDownOn = true;
+            mNoSpeechCountDown.start();
 
-            }
-            Log.d("Key", "onReadyForSpeech"); //$NON-NLS-1$
+            Log.d("Note", "onReadyForSpeech"); //$NON-NLS-1$
         }
 
         @Override
@@ -246,6 +244,8 @@ public class VoiceService extends Service
 //                            .findFirst()
 //                            .orElse("");
                 query = capturedText.get(0);
+
+                Log.d("Note", query);
 
 //                Toast.makeText(this, query, Toast.LENGTH_SHORT)
 //                        .show();
