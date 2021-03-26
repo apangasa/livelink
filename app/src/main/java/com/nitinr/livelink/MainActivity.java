@@ -12,6 +12,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 
@@ -43,10 +46,10 @@ public class MainActivity extends AppCompatActivity {
                     .show();
         }
 
-        arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.ux_fragment);
-
-        assert arFragment != null;
-        arFragment.getArSceneView().getPlaneRenderer().setEnabled(false);
+//        arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.ux_fragment);
+//
+//        assert arFragment != null;
+//        arFragment.getArSceneView().getPlaneRenderer().setEnabled(false);
 
 //        createRenderable(true);
 //
@@ -62,7 +65,39 @@ public class MainActivity extends AppCompatActivity {
 //        onSceneUpdate(null);
 
         SttService sttService = SttService.getInstance(MainActivity.this);
-        sttService.startSpeechToText();
+        //sttService.startSpeechToText();
+
+        FrameLayout frameLayout = findViewById(R.id.frameLayout);
+
+        frameLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (MotionEvent.ACTION_DOWN == event.getAction()) {
+                    sttService.startSpeechToText();
+                } else {
+                    sttService.stopSpeechToText();
+                }
+
+                return false;
+            }
+        });
+
+//        final Handler handler = new Handler(Looper.getMainLooper());
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                sttService.stopSpeechToText();
+//            }
+//        }, 10000);
+
+//        sttService.startSpeechToText();
+//
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                sttService.stopSpeechToText();
+//            }
+//        }, 10000);
     }
 
     public static boolean checkIsSupportedDeviceOrFinish(final Activity activity) {
@@ -143,6 +178,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        arFragment.getPlaneDiscoveryController().hide();
+        //arFragment.getPlaneDiscoveryController().hide();
     }
 }

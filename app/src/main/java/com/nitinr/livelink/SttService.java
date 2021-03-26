@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.Settings;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
@@ -50,7 +52,8 @@ public class SttService {
 
             @Override
             public void onBeginningOfSpeech() {
-
+                Toast.makeText(context, "start", Toast.LENGTH_SHORT)
+                        .show();
             }
 
             @Override
@@ -70,7 +73,7 @@ public class SttService {
 
             @Override
             public void onError(int error) {
-
+                //restartSpeechToText();
             }
 
             @Override
@@ -78,17 +81,18 @@ public class SttService {
                 ArrayList<String> capturedText = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
 
                 if (capturedText != null) {
-                    query = Arrays.stream(capturedText.get(0).split(" "))
-                            .map(String::toLowerCase)
-                            .filter(e -> Phrases.phraseSet.contains(e))
-                            .findFirst()
-                            .orElse("");
+//                    query = Arrays.stream(capturedText.get(0).split(" "))
+//                            .map(String::toLowerCase)
+//                            .filter(e -> Phrases.phraseSet.contains(e))
+//                            .findFirst()
+//                            .orElse("");
+                    query = capturedText.get(0);
 
                     Toast.makeText(context, query, Toast.LENGTH_SHORT)
                             .show();
                 }
 
-                restartSpeechToText();
+                //restartSpeechToText();
             }
 
             @Override
@@ -117,13 +121,23 @@ public class SttService {
         }
     }
 
-    public void restartSpeechToText() {
-        if (!query.equals("off")) {
-            speechRecognizer.stopListening();
-            speechRecognizer.startListening(speechRecognizerIntent);
-        } else {
-            speechRecognizer.stopListening();
-        }
+    private void restartSpeechToText() {
+//        if (!query.equals("off")) {
+//            speechRecognizer.stopListening();
+//            speechRecognizer.startListening(speechRecognizerIntent);
+//        } else {
+//            speechRecognizer.stopListening();
+//        }
+        speechRecognizer.stopListening();
+
+        final Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                speechRecognizer.startListening(speechRecognizerIntent);
+            }
+        }, 1000);
+
     }
 
     public void startSpeechToText() {
