@@ -5,8 +5,6 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
-import android.nfc.Tag;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -18,7 +16,6 @@ import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -59,6 +56,12 @@ public class VoiceService extends Service
     public int onStartCommand(Intent intent, int flags, int startId) {
         int cmd = super.onStartCommand(intent, flags, startId);
 
+        sendStartListening();
+
+        return cmd;
+    }
+
+    public void sendStartListening() {
         Message msg = new Message();
         msg.what = MSG_RECOGNIZER_START_LISTENING;
         try {
@@ -66,8 +69,6 @@ public class VoiceService extends Service
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-
-        return cmd;
     }
 
     protected static class IncomingHandler extends Handler
@@ -251,13 +252,7 @@ public class VoiceService extends Service
 
             }
 
-            Message msg = new Message();
-            msg.what = MSG_RECOGNIZER_START_LISTENING;
-            try {
-                mServerMessenger.send(msg);
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
+            sendStartListening();
         }
 
         @Override
