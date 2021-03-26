@@ -4,6 +4,8 @@ import  {  FirebaseAuthConsumer,
   IfFirebaseAuthed,
   IfFirebaseUnAuthed
 } from '@react-firebase/auth';
+import { FirebaseDatabaseNode } from "@react-firebase/database";
+
 import firebase from "firebase/app";
 import "firebase/auth";
 import Open from './Open.js';
@@ -22,16 +24,11 @@ class App extends React.Component {
   render() {
     return (
       <>
-      {/*<>
+      <>
       <IfFirebaseUnAuthed>
-      <button
-          onClick={() => {
-            const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
-            firebase.auth().signInWithPopup(googleAuthProvider);
-          }}
-        >
-          Sign In with Google
-        </button>
+
+        <Open />
+
       </IfFirebaseUnAuthed>
         <IfFirebaseAuthed>
         <button
@@ -42,10 +39,21 @@ class App extends React.Component {
           Sign Out
         </button>
         <p> your signed in </p>
+        <p> current data </p>
+        <FirebaseDatabaseNode path="user/">
+      {data => {
+        const { value } = data;
+        if (value === null || typeof value === "undefined") return null;
+        const keys = Object.keys(value);
+        const values = Object.values(value);
+        console.log(keys);
+        console.log(values);
+        return <>< />;
+      }}
+    </FirebaseDatabaseNode>
+        <p> update form </p>
         </IfFirebaseAuthed>
-      <p> hello world </p>
-      </>*/}
-      <Open />
+      </>
       </>
     )
   }
