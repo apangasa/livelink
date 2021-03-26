@@ -89,7 +89,6 @@ public class VoiceService extends Service
             {
                 case MSG_RECOGNIZER_START_LISTENING:
 
-                    // turn off beep sound
                     if (!target.mIsStreamSolo)
                     {
                         target.mAudioManager.setStreamSolo(AudioManager.STREAM_VOICE_CALL, true);
@@ -111,7 +110,6 @@ public class VoiceService extends Service
                     }
                     target.mSpeechRecognizer.cancel();
                     target.mIsListening = false;
-                    //Log.d(TAG, "message canceled recognizer"); //$NON-NLS-1$
                     break;
             }
         }
@@ -249,6 +247,16 @@ public class VoiceService extends Service
 
 //                Toast.makeText(this, query, Toast.LENGTH_SHORT)
 //                        .show();
+
+
+            }
+
+            Message msg = new Message();
+            msg.what = MSG_RECOGNIZER_START_LISTENING;
+            try {
+                mServerMessenger.send(msg);
+            } catch (RemoteException e) {
+                e.printStackTrace();
             }
         }
 
