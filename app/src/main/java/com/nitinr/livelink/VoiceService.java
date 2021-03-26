@@ -37,7 +37,7 @@ public class VoiceService extends Service
     static final int MSG_RECOGNIZER_START_LISTENING = 1;
     static final int MSG_RECOGNIZER_CANCEL = 2;
 
-    public String query;
+    public String query; // user's command
 
     @Override
     public void onCreate()
@@ -66,16 +66,6 @@ public class VoiceService extends Service
         }
 
         return cmd;
-    }
-
-    public void sendStartListening() {
-        Message msg = new Message();
-        msg.what = MSG_RECOGNIZER_START_LISTENING;
-        try {
-            mServerMessenger.send(msg);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
     }
 
     protected static class IncomingHandler extends Handler
@@ -249,10 +239,11 @@ public class VoiceService extends Service
                         .filter(e -> Phrases.phraseSet.contains(e))
                         .findFirst()
                         .orElse("");
+
                 String text = capturedText.get(0);
 
                 Log.d("Note", text);
-                Log.d("Note", query);
+                Log.d("Command", query);
             }
         }
 
