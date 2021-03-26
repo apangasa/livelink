@@ -79,8 +79,8 @@ public class SttService {
 
                 if (capturedText != null) {
                     query = Arrays.stream(capturedText.get(0).split(" "))
-                            .filter(e -> !Phrases.phraseSet.contains(e))
                             .map(String::toLowerCase)
+                            .filter(e -> !Phrases.phraseSet.contains(e))
                             .findFirst()
                             .orElse("");
                 }
