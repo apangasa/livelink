@@ -2,23 +2,18 @@ import './App.css';
 /*import Open from './Open.js';*/
 import  {  FirebaseAuthConsumer,
   IfFirebaseAuthed,
-  IfFirebaseUnAuthed
+  IfFirebaseUnAuthed,
 } from '@react-firebase/auth';
-import { FirebaseDatabaseNode } from "@react-firebase/database";
-
 import firebase from "firebase/app";
 import "firebase/auth";
 import Open from './Open.js';
 import React from 'react';
+import Form from './Form.js'
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
-
     };
-
-
   }
 
   render() {
@@ -31,27 +26,20 @@ class App extends React.Component {
 
       </IfFirebaseUnAuthed>
         <IfFirebaseAuthed>
-        <button
-          onClick={() => {
-            firebase.auth().signOut();
+        <FirebaseAuthConsumer>
+          {({ isSignedIn, user, providerId }) => {
+            return (
+              <>
+              <pre style={{ height: 300, overflow: "auto" }}>
+                {JSON.stringify({ isSignedIn, user, providerId }, null, 2)}
+              </pre>
+              <Form user={user} />
+              </>
+            );
           }}
-        >
-          Sign Out
-        </button>
-        <p> your signed in </p>
-        <p> current data </p>
-        <FirebaseDatabaseNode path="user/">
-      {data => {
-        const { value } = data;
-        if (value === null || typeof value === "undefined") return null;
-        const keys = Object.keys(value);
-        const values = Object.values(value);
-        console.log(keys);
-        console.log(values);
-        return <>< />;
-      }}
-    </FirebaseDatabaseNode>
-        <p> update form </p>
+        </FirebaseAuthConsumer>
+
+
         </IfFirebaseAuthed>
       </>
       </>
