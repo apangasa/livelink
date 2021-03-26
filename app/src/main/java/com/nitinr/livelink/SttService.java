@@ -1,12 +1,14 @@
 package com.nitinr.livelink;
 
 import android.Manifest;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Looper;
 import android.provider.Settings;
 import android.speech.RecognitionListener;
@@ -14,6 +16,7 @@ import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
@@ -22,7 +25,7 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class SttService {
+public class SttService extends Service {
     //Singleton instance
     public static SttService SttService_instance = null;
     private Context context;
@@ -148,5 +151,11 @@ public class SttService {
 
     public void stopSpeechToText() {
         speechRecognizer.stopListening();
+    }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
     }
 }

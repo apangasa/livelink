@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
@@ -64,23 +65,24 @@ public class MainActivity extends AppCompatActivity {
 //        arFragment.getArSceneView().getScene().addOnUpdateListener(this::onSceneUpdate);
 //        onSceneUpdate(null);
 
-        SttService sttService = SttService.getInstance(MainActivity.this);
+        //SttService sttService = SttService.getInstance(MainActivity.this);
         //sttService.startSpeechToText();
+        startService(new Intent(this, VoiceService.class));
 
-        FrameLayout frameLayout = findViewById(R.id.frameLayout);
+        //FrameLayout frameLayout = findViewById(R.id.frameLayout);
 
-        frameLayout.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (MotionEvent.ACTION_DOWN == event.getAction()) {
-                    sttService.startSpeechToText();
-                } else {
-                    sttService.stopSpeechToText();
-                }
-
-                return false;
-            }
-        });
+//        frameLayout.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                if (MotionEvent.ACTION_DOWN == event.getAction()) {
+//                    sttService.startSpeechToText();
+//                } else {
+//                    sttService.stopSpeechToText();
+//                }
+//
+//                return false;
+//            }
+//        });
 
 //        final Handler handler = new Handler(Looper.getMainLooper());
 //        handler.postDelayed(new Runnable() {
