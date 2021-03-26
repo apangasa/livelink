@@ -80,10 +80,15 @@ public class SttService {
                 if (capturedText != null) {
                     query = Arrays.stream(capturedText.get(0).split(" "))
                             .map(String::toLowerCase)
-                            .filter(e -> !Phrases.phraseSet.contains(e))
+                            .filter(e -> Phrases.phraseSet.contains(e))
                             .findFirst()
                             .orElse("");
+
+                    Toast.makeText(context, query, Toast.LENGTH_SHORT)
+                            .show();
                 }
+
+                restartSpeechToText();
             }
 
             @Override
@@ -109,6 +114,15 @@ public class SttService {
         if (!(ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED)) {
             Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + context.getApplicationContext().getPackageName()));
             context.startActivity(intent);
+        }
+    }
+
+    public void restartSpeechToText() {
+        if (!query.equals("off")) {
+            speechRecognizer.stopListening();
+            speechRecognizer.startListening(speechRecognizerIntent);
+        } else {
+            speechRecognizer.stopListening();
         }
     }
 
