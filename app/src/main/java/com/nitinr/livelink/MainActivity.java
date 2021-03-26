@@ -47,10 +47,12 @@ public class MainActivity extends AppCompatActivity {
                     .show();
         }
 
-//        arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.ux_fragment);
-//
-//        assert arFragment != null;
-//        arFragment.getArSceneView().getPlaneRenderer().setEnabled(false);
+        arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.ux_fragment);
+
+        // disables plane calibration animation
+        arFragment.getArSceneView().getPlaneRenderer().setEnabled(false);
+        arFragment.getPlaneDiscoveryController().hide();
+        arFragment.getPlaneDiscoveryController().setInstructionView(null);
 
 //        createRenderable(true);
 //
@@ -65,8 +67,6 @@ public class MainActivity extends AppCompatActivity {
 //        arFragment.getArSceneView().getScene().addOnUpdateListener(this::onSceneUpdate);
 //        onSceneUpdate(null);
 
-        //SttService sttService = SttService.getInstance(MainActivity.this);
-        //sttService.startSpeechToText();
         startService(new Intent(this, VoiceService.class));
 
         //FrameLayout frameLayout = findViewById(R.id.frameLayout);
