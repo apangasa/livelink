@@ -21,6 +21,7 @@ import androidx.annotation.Nullable;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class VoiceService extends Service
 {
@@ -56,7 +57,13 @@ public class VoiceService extends Service
     public int onStartCommand(Intent intent, int flags, int startId) {
         int cmd = super.onStartCommand(intent, flags, startId);
 
-        sendStartListening();
+        Message msg = new Message();
+        msg.what = MSG_RECOGNIZER_START_LISTENING;
+        try {
+            mServerMessenger.send(msg);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
         return cmd;
     }
@@ -116,7 +123,7 @@ public class VoiceService extends Service
         }
     }
 
-    protected CountDownTimer mNoSpeechCountDown = new CountDownTimer(5000, 5000)
+    protected CountDownTimer mNoSpeechCountDown = new CountDownTimer(2000, 2000)
     {
 
         @Override
@@ -237,22 +244,16 @@ public class VoiceService extends Service
             ArrayList<String> capturedText = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
 
             if (capturedText != null) {
-//                    query = Arrays.stream(capturedText.get(0).split(" "))
-//                            .map(String::toLowerCase)
-//                            .filter(e -> Phrases.phraseSet.contains(e))
-//                            .findFirst()
-//                            .orElse("");
-                query = capturedText.get(0);
+                query = Arrays.stream(capturedText.get(0).split(" "))
+                        .map(String::toLowerCase)
+                        .filter(e -> Phrases.phraseSet.contains(e))
+                        .findFirst()
+                        .orElse("");
+                String text = capturedText.get(0);
 
+                Log.d("Note", text);
                 Log.d("Note", query);
-
-//                Toast.makeText(this, query, Toast.LENGTH_SHORT)
-//                        .show();
-
-
             }
-
-            sendStartListening();
         }
 
         @Override
