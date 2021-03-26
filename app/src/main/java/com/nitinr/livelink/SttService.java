@@ -10,11 +10,15 @@ import android.provider.Settings;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Locale;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class SttService {
     //Singleton instance
@@ -23,11 +27,11 @@ public class SttService {
 
     private SpeechRecognizer speechRecognizer;
     private Intent speechRecognizerIntent;
-    public String text;
+    public String query;
 
     private SttService (Context context){
         this.context = context;
-        text = "";
+        query = "";
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(context);
         speechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 
@@ -71,12 +75,14 @@ public class SttService {
 
             @Override
             public void onResults(Bundle results) {
-                ArrayList<String> queries = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+                ArrayList<String> capturedText = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
 
-                if (queries != null) {
-                    text = queries.get(0);
-
-                    text = "";
+                if (capturedText != null) {
+                    query = Arrays.stream(capturedText.get(0).split(" "))
+                            .filter(e -> !Phrases.phraseSet.contains(e))
+                            .map(String::toLowerCase)
+                            .findFirst()
+                            .orElse("");
                 }
             }
 
