@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/profilePic"
             android:layout_width="77dp"
             android:layout_height="96dp"
             android:layout_gravity="center"
@@ -59,7 +59,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/name2"
+                android:id="@+id/age"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -73,10 +73,10 @@
                 android:textColor="#000000"
                 android:textSize="10sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView" />
+                app:layout_constraintTop_toBottomOf="@+id/numLinks" />
 
             <TextView
-                android:id="@+id/name3"
+                android:id="@+id/education"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -90,10 +90,10 @@
                 android:textColor="#000000"
                 android:textSize="10sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/name2" />
+                app:layout_constraintTop_toBottomOf="@+id/age" />
 
             <TextView
-                android:id="@+id/name4"
+                android:id="@+id/email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -107,16 +107,16 @@
                 android:textColor="#000000"
                 android:textSize="10sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/name3" />
+                app:layout_constraintTop_toBottomOf="@+id/education" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/linkButton"
                 android:layout_width="52dp"
                 android:layout_height="17dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/rounded_corners"
                 android:fontFamily="sans-serif-light"
-                android:text="Link"
+                android:text="@string/link"
                 android:textColor="#ffffff"
                 android:textSize="8sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -125,7 +125,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/numLinks"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -137,7 +137,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/name" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/mutualLinks"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -146,7 +146,7 @@
                 android:textColor="#906ce0"
                 android:textSize="10sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button2" />
+                app:layout_constraintTop_toBottomOf="@+id/linkButton" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private static final double MIN_OPENGL_VERSION = 3.0;
 
     private ArFragment arFragment;
+    private ViewRenderable profileRenderable; // Profile AR element
 
     private TransformableNode animNode;
     private TransformableNode profileNode;
@@ -77,6 +80,17 @@ public class MainActivity extends AppCompatActivity {
                             createRenderable(ArStatus.PROFILE);
                         }
                         break;
+                    case "link":
+                        if (profileNode != null) {
+                            linkWithUser();
+                        }
+                        break;
+                    case "off":
+                        if (animNode != null && profileNode != null) {
+                            animNode.setParent(null);
+                            profileNode.setParent(null);
+                        }
+                        break;
                 }
 
             }
@@ -117,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void addToScene(ViewRenderable viewRenderable, ArStatus status) {
+
         Vector3 forward = arFragment.getArSceneView().getScene().getCamera().getForward();
         Vector3 worldPosition = arFragment.getArSceneView().getScene().getCamera().getWorldPosition();
         Vector3 position = Vector3.add(forward, worldPosition);
@@ -133,13 +148,22 @@ public class MainActivity extends AppCompatActivity {
 
         if (status == ArStatus.ANIMATION) {
             animNode = node;
-        } else {
+        } else if (status == ArStatus.PROFILE){
             profileNode = node;
+            this.profileRenderable = viewRenderable;
         }
 
         Node render = new Node();
         render.setParent(node);
         render.setRenderable(viewRenderable);
+    }
+
+    private void linkWithUser() {
+        View profileView = profileRenderable.getView();
+        Button linkButton = profileView.findViewById(R.id.linkButton);
+
+        linkButton.setBackgroundResource(R.drawable.rounded_corners_green);
+        linkButton.setText("Linked");
     }
 
     private void snapShot() {
