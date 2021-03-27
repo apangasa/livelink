@@ -25,6 +25,8 @@ import com.google.ar.sceneform.rendering.ViewRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
 
+import org.json.JSONObject;
+
 import java.util.Objects;
 
 import pl.droidsonroids.gif.GifImageView;
@@ -74,14 +76,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onQueryCaptured(String query) {
                 switch (query) {
-                    case "on":
+                    case "detect":
                         createRenderable(ArStatus.ANIMATION_LOADING);
-                        break;
-                    case "profile":
+
                         if (animNode != null) {
                             animNode.setParent(null);
-                            createRenderable(ArStatus.PROFILE);
                         }
+
+                        snapShot();
                         break;
                     case "link":
                         if (profileNode != null) {
@@ -100,8 +102,10 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onDataLoaded(Object data) {
-                // handle user info after received
+            public void onDataLoaded(JSONObject data) {
+                if (data != null) {
+                    createRenderable(ArStatus.PROFILE);
+                }
             }
         });
     }
@@ -180,6 +184,8 @@ public class MainActivity extends AppCompatActivity {
             Image image = Objects.requireNonNull(arFragment.getArSceneView().getArFrame()).acquireCameraImage();
 
             String base64 = ImageProcessing.processSnapShot(image, image.getWidth(), image.getHeight());
+
+            VoiceService.requestDataFromEndpoint("https://live-link-308404.ue.r.appspot.com/get_face", base64);
 
         } catch (NotYetAvailableException e) {
             e.printStackTrace();

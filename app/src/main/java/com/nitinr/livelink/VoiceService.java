@@ -19,9 +19,25 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.internal.Util;
+
 
 public class VoiceService extends Service
 {
@@ -75,11 +91,54 @@ public class VoiceService extends Service
 
     public interface QueryListener {
         void onQueryCaptured(String query);
-        void onDataLoaded(Object data);
+        void onDataLoaded(JSONObject data);
     }
 
     public void setQueryListener (QueryListener listener) {
         queryListener = listener;
+    }
+
+    public static void requestDataFromEndpoint(String url, String data) {
+        JSONObject obj = new JSONObject();
+
+        try {
+            obj.put("img", data);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        OkHttpClient client = new OkHttpClient();
+        final MediaType mediaType
+                = MediaType.get("application/json; charset=utf-8");
+
+        RequestBody body = RequestBody.create(obj.toString(), mediaType);
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .build();
+
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    try {
+                        JSONObject data = new JSONObject(Objects.requireNonNull(response.body()).string());
+
+                        queryListener.onDataLoaded(data); // fire listener
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                Log.d("RESULT", response.toString());
+            }
+        });
     }
 
     protected static class IncomingHandler extends Handler
@@ -261,7 +320,7 @@ public class VoiceService extends Service
                     queryListener.onQueryCaptured(query);
                 }
 
-                Log.d("Text", text);
+                Log.d("UserSaid", text);
                 Log.d("Query", query);
             }
         }
