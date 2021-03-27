@@ -51,7 +51,8 @@ public class MainActivity extends AppCompatActivity {
 
         startService(new Intent(this, VoiceService.class));
 
-        VoiceService voiceService = new VoiceService(new VoiceService.QueryListener() {
+        VoiceService voiceService = new VoiceService();
+        voiceService.setQueryListener(new VoiceService.QueryListener() {
             @Override
             public void onQueryCaptured(String query) {
                 createRenderable(true);

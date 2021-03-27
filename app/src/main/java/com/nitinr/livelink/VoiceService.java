@@ -58,10 +58,6 @@ public class VoiceService extends Service
 
     }
 
-    public VoiceService(QueryListener listener) {
-        queryListener = listener;
-    }
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         int cmd = super.onStartCommand(intent, flags, startId);
@@ -80,6 +76,10 @@ public class VoiceService extends Service
     public interface QueryListener {
         void onQueryCaptured(String query);
         void onDataLoaded(Object data);
+    }
+
+    public void setQueryListener (QueryListener listener) {
+        queryListener = listener;
     }
 
     protected static class IncomingHandler extends Handler
