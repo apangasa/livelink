@@ -1,7 +1,8 @@
 from flask import Flask, jsonify, request
 import json
+import numpy as np
 import requests
-from machineLearning import recognize, test_upload, test_download, get_next_class, insert_new_class
+from machineLearning import recognize, test_upload, test_download, get_next_class, insert_new_class, get_features, create_instance, get_id
 from flask_cors import CORS
 
 
@@ -23,6 +24,8 @@ def add_face():
     class_id = get_next_class()
     insert_new_class(class_id, person_id)
 
+    create_instance(base64_face, class_id)
+
     return jsonify(response=True)
 
 
@@ -30,7 +33,9 @@ def add_face():
 def get_face():
     base64_face = request.json.get('img', None)
 
-    person_id = recognize(base64_face)
+    person_class = recognize(base64_face)
+
+    person_id = get_id(person_class)
 
     r = requests.get('http://129.213.124.196:3000/get?id=' + str(person_id))
 
