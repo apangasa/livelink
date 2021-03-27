@@ -25,7 +25,7 @@ import java.util.Arrays;
 
 public class VoiceService extends Service
 {
-    private QueryListener queryListener;
+    private static VoiceService.QueryListener queryListener = null;
 
     protected AudioManager mAudioManager;
     protected SpeechRecognizer mSpeechRecognizer;
@@ -43,6 +43,7 @@ public class VoiceService extends Service
     public void onCreate()
     {
         super.onCreate();
+
         mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         mSpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
         mSpeechRecognizer.setRecognitionListener(new SpeechRecognitionListener());
@@ -51,6 +52,14 @@ public class VoiceService extends Service
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
                 this.getPackageName());
+    }
+
+    public VoiceService() { // default constructor
+
+    }
+
+    public VoiceService(QueryListener listener) {
+        queryListener = listener;
     }
 
     @Override
@@ -72,15 +81,6 @@ public class VoiceService extends Service
         void onQueryCaptured(String query);
         void onDataLoaded(Object data);
     }
-
-    public VoiceService() {
-        this.queryListener = null;
-    }
-
-    public void setQueryListener(QueryListener queryListener) {
-        this.queryListener = queryListener;
-    }
-
 
     protected static class IncomingHandler extends Handler
     {
@@ -256,7 +256,10 @@ public class VoiceService extends Service
 
                 String text = capturedText.get(0);
 
-                queryListener.onQueryCaptured(query); // fire listener
+
+                if (queryListener != null) {
+                    queryListener.onQueryCaptured(query);
+                }
 
                 Log.d("Text", text);
                 Log.d("Query", query);

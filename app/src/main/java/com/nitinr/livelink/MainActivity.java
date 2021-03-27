@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     private static final double MIN_OPENGL_VERSION = 3.0;
 
     private ArFragment arFragment;
-    private ViewRenderable viewRenderable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,13 +51,10 @@ public class MainActivity extends AppCompatActivity {
 
         startService(new Intent(this, VoiceService.class));
 
-        VoiceService voiceService = new VoiceService();
-        voiceService.setQueryListener(new VoiceService.QueryListener() {
+        VoiceService voiceService = new VoiceService(new VoiceService.QueryListener() {
             @Override
             public void onQueryCaptured(String query) {
-                if (query.equals("scan")) {
-                    createRenderable(true);
-                }
+                createRenderable(true);
             }
 
             @Override
@@ -95,8 +91,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void addToScene(ViewRenderable viewRenderable) {
-        this.viewRenderable = viewRenderable;
-
         Vector3 forward = arFragment.getArSceneView().getScene().getCamera().getForward();
         Vector3 worldPosition = arFragment.getArSceneView().getScene().getCamera().getWorldPosition();
         Vector3 position = Vector3.add(forward, worldPosition);
