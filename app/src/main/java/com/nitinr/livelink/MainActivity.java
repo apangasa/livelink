@@ -27,6 +27,8 @@ import com.google.ar.sceneform.ux.TransformableNode;
 
 import java.util.Objects;
 
+import pl.droidsonroids.gif.GifImageView;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -40,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
 
     enum ArStatus { // Which AR type element to render
         PROFILE,
-        ANIMATION
+        ANIMATION_LOADING,
+        ANIMATION_LINKED
     }
 
     // Ar element node position offsets
@@ -72,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
             public void onQueryCaptured(String query) {
                 switch (query) {
                     case "on":
-                        createRenderable(ArStatus.ANIMATION);
+                        createRenderable(ArStatus.ANIMATION_LOADING);
                         break;
                     case "profile":
                         if (animNode != null) {
@@ -83,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
                     case "link":
                         if (profileNode != null) {
                             linkWithUser();
+                            createRenderable(ArStatus.ANIMATION_LINKED);
                         }
                         break;
                     case "off":
@@ -119,7 +123,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void createRenderable(ArStatus status) {
 
-        int layout = (status == ArStatus.ANIMATION)? R.layout.activity_animation : R.layout.activity_renderable;
+        int layout = (status == ArStatus.ANIMATION_LOADING || status == ArStatus.ANIMATION_LINKED)?
+                R.layout.activity_animation : R.layout.activity_renderable;
 
         ViewRenderable.builder()
                 .setView(this, layout)
@@ -146,11 +151,15 @@ public class MainActivity extends AppCompatActivity {
         node.setLookDirection(direction);
         node.setParent(arFragment.getArSceneView().getScene());
 
-        if (status == ArStatus.ANIMATION) {
+        if (status == ArStatus.ANIMATION_LOADING) {
             animNode = node;
         } else if (status == ArStatus.PROFILE){
             profileNode = node;
             this.profileRenderable = viewRenderable;
+        } else if (status == ArStatus.ANIMATION_LINKED) {
+            animNode = node;
+            GifImageView gifImageView = viewRenderable.getView().findViewById(R.id.gif);
+            gifImageView.setImageResource(R.drawable.linked);
         }
 
         Node render = new Node();
