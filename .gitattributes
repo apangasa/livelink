@@ -1,1 +1,2 @@
-react-app/ linguist-vendored
+react-app/src/components linguist-vendored
+react-app/src/form.css linguist-vendored
