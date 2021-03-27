@@ -17,7 +17,7 @@ def get_landmarks(base64string, rotate=False):
     mp_face_mesh = mp.solutions.face_mesh
     # drawing_spec = mp_drawing.DrawingSpec(thickness=1, circle_radius=1, color=(255, 0, 0))
 
-    img = decode_base64_to_img(encoded)
+    img = decode_base64_to_img(base64string)
     if rotate:
         img = vision.rotate(img, vision.ROTATE_90_CLOCKWISE)
     # annotated = img.copy()
@@ -55,12 +55,15 @@ def get_features_from_file(filename, rotate=False):
     return get_landmarks(encoded, rotate=rotate)
 
 
-first = get_features_from_file('encoded', rotate=True)
+# first = get_features_from_file('encoded', rotate=True)
 
-second = get_features_from_file('nitin')
+# second = get_features_from_file('nitin')
 
-third = get_features_from_file('arnav')
+# third = get_features_from_file('arnav')
 
-print(np.linalg.norm(first - second))
-print(np.linalg.norm(first - third))
+# fourth = get_features_from_file('gaurang')
+
+# print(np.linalg.norm(first - second))
+# print(np.linalg.norm(first - third))
+# print(np.linalg.norm(first - fourth))
 # print(np.linalg.norm(second - third))
