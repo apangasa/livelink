@@ -40,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
         ANIMATION
     }
 
+    // Ar element node position offsets
+    final private double Z_OFFSET = 0.5;
+    final private double Y_OFFSET = 0.1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                     case "on":
                         createRenderable(ArStatus.ANIMATION);
                         break;
-                    case "scan":
+                    case "profile":
                         if (animNode != null) {
                             animNode.setParent(null);
                             createRenderable(ArStatus.PROFILE);
@@ -116,6 +120,8 @@ public class MainActivity extends AppCompatActivity {
         Vector3 forward = arFragment.getArSceneView().getScene().getCamera().getForward();
         Vector3 worldPosition = arFragment.getArSceneView().getScene().getCamera().getWorldPosition();
         Vector3 position = Vector3.add(forward, worldPosition);
+        position.y -= Y_OFFSET;
+        position.z -= Z_OFFSET;
 
         Vector3 direction = Vector3.subtract(worldPosition, position);
         direction.y = position.y;

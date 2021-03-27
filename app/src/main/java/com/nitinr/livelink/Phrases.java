@@ -10,7 +10,7 @@ public class Phrases {
         String[] ALL_PHRASES = new String[] {
                 "on",
                 "off",
-                "scan",
+                "profile",
                 "link"
         };
 
