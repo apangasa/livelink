@@ -17,12 +17,60 @@ class Form extends React.Component {
       isPic: false,
       newName:'',
       newBio: '',
-      newProfile: '',
+      file: null,
+      base64URL: ""
 
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChangeName = this.handleChangeName.bind(this);
   }
+
+  getBase64 = file => {
+   return new Promise(resolve => {
+     let fileInfo;
+     let baseURL = "";
+     // Make new FileReader
+     let reader = new FileReader();
+
+     // Convert the file to base64 text
+     reader.readAsDataURL(file);
+
+     // on reader load somthing...
+     reader.onload = () => {
+       // Make a fileInfo Object
+       console.log("Called", reader);
+       baseURL = reader.result;
+       console.log(baseURL);
+       resolve(baseURL);
+     };
+     console.log(fileInfo);
+   });
+ };
+
+ handleFileInputChange = e => {
+    console.log(e.target.files[0]);
+    let { file } = this.state;
+
+    file = e.target.files[0];
+
+    this.getBase64(file)
+      .then(result => {
+        file["base64"] = result;
+        console.log("File Is", file);
+        this.setState({
+          base64URL: result,
+          file
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
+    this.setState({
+      file: e.target.files[0]
+    });
+  };
+
   handleSubmit(event) {
     alert('A name was submitted:' + this.state.name + '. The email is: ' + this.state.email);
     this.setState({submitted: true})
@@ -71,9 +119,8 @@ class Form extends React.Component {
             <div className="col-lg-3 order-lg-2">
               <div className="card-profile-image">
                 <a href="#">
-                <button>
+                <input type="file" name="file" onChange={this.handleFileInputChange} />
                 {this.state.profilePic ? <img src={`data:image/png;base64,${this.state.profilePic}`} className={"rounded-circle"}/>: '' }
-                </button>
                 </a>
               </div>
             </div>
