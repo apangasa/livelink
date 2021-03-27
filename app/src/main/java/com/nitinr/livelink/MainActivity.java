@@ -32,6 +32,14 @@ public class MainActivity extends AppCompatActivity {
 
     private ArFragment arFragment;
 
+    private TransformableNode animNode;
+    private TransformableNode profileNode;
+
+    enum ArStatus { // Which AR type element to render
+        PROFILE,
+        ANIMATION
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +63,18 @@ public class MainActivity extends AppCompatActivity {
         voiceService.setQueryListener(new VoiceService.QueryListener() {
             @Override
             public void onQueryCaptured(String query) {
-                createRenderable(true);
+                switch (query) {
+                    case "on":
+                        createRenderable(ArStatus.ANIMATION);
+                        break;
+                    case "scan":
+                        if (animNode != null) {
+                            animNode.setParent(null);
+                            createRenderable(ArStatus.PROFILE);
+                        }
+                        break;
+                }
+
             }
 
             @Override
@@ -80,18 +99,20 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    private void createRenderable(boolean isGif) {
+    private void createRenderable(ArStatus status) {
 
-        int layout = (isGif)? R.layout.activity_animation : R.layout.activity_renderable;
+        int layout = (status == ArStatus.ANIMATION)? R.layout.activity_animation : R.layout.activity_renderable;
 
         ViewRenderable.builder()
                 .setView(this, layout)
                 .build()
-                .thenAccept(this::addToScene);
+                .thenAccept(viewRenderable -> {
+                    addToScene(viewRenderable, status);
+                });
     }
 
 
-    private void addToScene(ViewRenderable viewRenderable) {
+    private void addToScene(ViewRenderable viewRenderable, ArStatus status) {
         Vector3 forward = arFragment.getArSceneView().getScene().getCamera().getForward();
         Vector3 worldPosition = arFragment.getArSceneView().getScene().getCamera().getWorldPosition();
         Vector3 position = Vector3.add(forward, worldPosition);
@@ -103,6 +124,12 @@ public class MainActivity extends AppCompatActivity {
         node.setWorldPosition(position);
         node.setLookDirection(direction);
         node.setParent(arFragment.getArSceneView().getScene());
+
+        if (status == ArStatus.ANIMATION) {
+            animNode = node;
+        } else {
+            profileNode = node;
+        }
 
         Node render = new Node();
         render.setParent(node);
