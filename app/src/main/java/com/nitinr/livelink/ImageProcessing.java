@@ -34,11 +34,6 @@ public class ImageProcessing {
             imageBytes = new byte[byteBufferY.remaining()];
             byteBufferY.get(imageBytes);
 
-//            assert viewRenderable != null;
-//
-//            ImageView iv = viewRenderable.getView().findViewById(R.id.imageView);
-//            iv.setImageBitmap(bitmapImage);
-//            iv.setImageResource(R.drawable.ic_launcher_foreground);
             image.close();
 
         } catch (Exception e) {

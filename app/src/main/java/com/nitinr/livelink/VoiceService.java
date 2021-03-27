@@ -25,6 +25,8 @@ import java.util.Arrays;
 
 public class VoiceService extends Service
 {
+    private QueryListener queryListener;
+
     protected AudioManager mAudioManager;
     protected SpeechRecognizer mSpeechRecognizer;
     protected Intent mSpeechRecognizerIntent;
@@ -36,8 +38,6 @@ public class VoiceService extends Service
 
     static final int MSG_RECOGNIZER_START_LISTENING = 1;
     static final int MSG_RECOGNIZER_CANCEL = 2;
-
-    public String query; // user's command
 
     @Override
     public void onCreate()
@@ -67,6 +67,20 @@ public class VoiceService extends Service
 
         return cmd;
     }
+
+    public interface QueryListener {
+        void onQueryCaptured(String query);
+        void onDataLoaded(Object data);
+    }
+
+    public VoiceService() {
+        this.queryListener = null;
+    }
+
+    public void setQueryListener(QueryListener queryListener) {
+        this.queryListener = queryListener;
+    }
+
 
     protected static class IncomingHandler extends Handler
     {
@@ -234,7 +248,7 @@ public class VoiceService extends Service
             ArrayList<String> capturedText = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
 
             if (capturedText != null) {
-                query = Arrays.stream(capturedText.get(0).split(" "))
+                String query = Arrays.stream(capturedText.get(0).split(" "))
                         .map(String::toLowerCase)
                         .filter(e -> Phrases.phraseSet.contains(e))
                         .findFirst()
@@ -242,8 +256,10 @@ public class VoiceService extends Service
 
                 String text = capturedText.get(0);
 
-                Log.d("Note", text);
-                Log.d("Command", query);
+                queryListener.onQueryCaptured(query); // fire listener
+
+                Log.d("Text", text);
+                Log.d("Query", query);
             }
         }
 

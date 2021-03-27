@@ -13,14 +13,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 
 import com.google.ar.core.exceptions.NotYetAvailableException;
-import com.google.ar.sceneform.FrameTime;
 import com.google.ar.sceneform.Node;
 import com.google.ar.sceneform.math.Vector3;;
 import com.google.ar.sceneform.rendering.ViewRenderable;
@@ -54,52 +50,22 @@ public class MainActivity extends AppCompatActivity {
         arFragment.getPlaneDiscoveryController().hide();
         arFragment.getPlaneDiscoveryController().setInstructionView(null);
 
-//        createRenderable(true);
-//
-//        final Handler handler = new Handler(Looper.getMainLooper());
-//        handler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                createRenderable(false);
-//            }
-//        }, 20000);
-
-//        arFragment.getArSceneView().getScene().addOnUpdateListener(this::onSceneUpdate);
-//        onSceneUpdate(null);
-
         startService(new Intent(this, VoiceService.class));
 
-        //FrameLayout frameLayout = findViewById(R.id.frameLayout);
+        VoiceService voiceService = new VoiceService();
+        voiceService.setQueryListener(new VoiceService.QueryListener() {
+            @Override
+            public void onQueryCaptured(String query) {
+                if (query.equals("scan")) {
+                    createRenderable(true);
+                }
+            }
 
-//        frameLayout.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                if (MotionEvent.ACTION_DOWN == event.getAction()) {
-//                    sttService.startSpeechToText();
-//                } else {
-//                    sttService.stopSpeechToText();
-//                }
-//
-//                return false;
-//            }
-//        });
-
-//        final Handler handler = new Handler(Looper.getMainLooper());
-//        handler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                sttService.stopSpeechToText();
-//            }
-//        }, 10000);
-
-//        sttService.startSpeechToText();
-//
-//        handler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                sttService.stopSpeechToText();
-//            }
-//        }, 10000);
+            @Override
+            public void onDataLoaded(Object data) {
+                // handle user info after received
+            }
+        });
     }
 
     public static boolean checkIsSupportedDeviceOrFinish(final Activity activity) {
@@ -146,40 +112,41 @@ public class MainActivity extends AppCompatActivity {
         Node render = new Node();
         render.setParent(node);
         render.setRenderable(viewRenderable);
-
-        final Handler handler = new Handler(Looper.getMainLooper());
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-               node.setParent(null);
-            }
-        }, 20000);
     }
 
-    private void onSceneUpdate(FrameTime frameTime) {
+    private void snapShot() {
+        try {
+            Image image = Objects.requireNonNull(arFragment.getArSceneView().getArFrame()).acquireCameraImage();
 
-        final Handler handler = new Handler(Looper.getMainLooper());
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Image image = Objects.requireNonNull(arFragment.getArSceneView().getArFrame()).acquireCameraImage();
+            String base64 = ImageProcessing.processSnapShot(image, image.getWidth(), image.getHeight());
 
-                    String base64 = ImageProcessing.processSnapShot(image, image.getWidth(), image.getHeight());
-
-                    Log.d(TAG, "end");
-                } catch (NotYetAvailableException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, 5000);
-
+        } catch (NotYetAvailableException e) {
+            e.printStackTrace();
+        }
     }
+
+//    private void onSceneUpdate(FrameTime frameTime) {
+//
+//        final Handler handler = new Handler(Looper.getMainLooper());
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    Image image = Objects.requireNonNull(arFragment.getArSceneView().getArFrame()).acquireCameraImage();
+//
+//                    String base64 = ImageProcessing.processSnapShot(image, image.getWidth(), image.getHeight());
+//
+//                    Log.d(TAG, "end");
+//                } catch (NotYetAvailableException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }, 5000);
+//
+//    }
 
     @Override
     protected void onResume() {
         super.onResume();
-
-        //arFragment.getPlaneDiscoveryController().hide();
     }
 }
