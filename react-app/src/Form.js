@@ -1,13 +1,38 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import React from 'react';
+import './form.css';
+
 class Form extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       loading: true,
+      name: 'Sohil Kollipara',
+      email: '',
+      linkCount: 'loading',
+      isPrivate: 'loading',
+      bio: 'loading',
+      profilePic: '',
+      isPic: false,
+      newName:'',
+      newBio: '',
+      newProfile: '',
 
     };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChangeName = this.handleChangeName.bind(this);
+  }
+  handleSubmit(event) {
+    alert('A name was submitted:' + this.state.name + '. The email is: ' + this.state.email);
+    this.setState({submitted: true})
+    event.preventDefault();
+  }
+  handleChangeName(event) {
+    this.setState({name: event.target.value})
+  }
+  handleChangePrivate(event) {
+    this.setState({profilePic:!this.state.profilePic})
   }
   componentDidMount() {
     console.log(this.props.user);
@@ -26,12 +51,106 @@ class Form extends React.Component {
       >
         Sign Out
       </button>
-      <p> Hi! {this.props.user.displayName} </p>
-      <p> You linked with: 0 people loser</p> 
-      <p> your signed in </p>
-      <p> current data </p>
-      <p> update form </p>
-      </>
+      <div className="main-content">
+  <div className="header pb-8 pt-5 pt-lg-8 d-flex align-items-center" >
+    <span className="mask bg-gradient-default opacity-8"></span>
+    <div className="container-fluid d-flex align-items-center">
+      <div className="row width-wide">
+        <div className="col-lg-7 col-md-10">
+          <h1 className="display-2 text-white">Hello {this.state.name}</h1>
+          <p className="text-white mt-0 mb-5">This is your profile page. You can edit your LiveLink profile here!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div className="container-fluid mt--7">
+    <div className="row">
+      <div className="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+        <div className="card card-profile shadow">
+          <div className="row justify-content-center">
+            <div className="col-lg-3 order-lg-2">
+              <div className="card-profile-image">
+                <a href="#">
+                <button>
+                {this.state.profilePic ? <img src={`data:image/png;base64,${this.state.profilePic}`} className={"rounded-circle"}/>: '' }
+                </button>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div className="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+          </div>
+          <div className="card-body pt-0 pt-md-4">
+            <div className="row">
+              <div className="col">
+                <div className="card-profile-stats d-flex justify-content-center mt-md-5">
+                  <div>
+                    <span className="heading">{this.state.linkCount}</span>
+                    <span className="description">Links</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="text-center">
+              <h3>
+                {this.state.name}
+              </h3>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="col-xl-8 order-xl-1">
+        <div className="card bg-secondary shadow">
+          <div className="card-header bg-white border-0">
+            <div className="row align-items-center">
+              <div className="col-8">
+                <h3 className="mb-0">My account</h3>
+              </div>
+              <div className="col-4 text-right">
+                <a href="#!" className="btn btn-sm btn-primary"> {this.state.isPrivate ? "Private" : "Public" }</a>
+              </div>
+            </div>
+          </div>
+          <div className="card-body">
+            <form>
+              <h6 className="heading-small text-muted mb-4">User information</h6>
+              <div className="pl-lg-4">
+                <div className="row">
+                  <div className="col-lg-6">
+                    <div className="form-group focused">
+                      <label className="form-control-label" htmlFor="input-username">Name</label>
+                      <input type="text" id="input-username" className="form-control form-control-alternative" value={this.state.name} />
+                    </div>
+                  </div>
+                  <div className="col-lg-6">
+                    <div className="form-group">
+                      <label className="form-control-label" htmlFor="input-email">Email address</label>
+                      <input type="email" id="input-email" className="form-control form-control-alternative" value={this.props.user.email} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/*<hr className="my-4">*/}
+              {/*<!-- Address -->*/}
+
+              {/*<hr className="my-4">*/}
+              {/*<!-- Description -->*/}
+              <h6 className="heading-small text-muted mb-4">About me</h6>
+              <div className="pl-lg-4">
+                <div className="form-group focused">
+                  <label>About Me</label>
+                  <textarea rows="4" className="form-control form-control-alternative" placeholder="A few words about you ...">A beautiful Dashboard for Bootstrap 4. It is Free and Open Source.</textarea>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</>
     )
   }
 }
