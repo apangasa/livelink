@@ -30,9 +30,6 @@ class App extends React.Component {
           {({ isSignedIn, user, providerId }) => {
             return (
               <>
-              <pre style={{ height: 300, overflow: "auto" }}>
-                {JSON.stringify({ isSignedIn, user, providerId }, null, 2)}
-              </pre>
               <Form user={user} />
               </>
             );
