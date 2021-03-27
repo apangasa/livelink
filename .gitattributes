@@ -1,2 +1,7 @@
-react-app/src/components linguist-vendored
+react-app/src/components/Footer/footer.css linguist-vendored
 react-app/src/form.css linguist-vendored
+react-app/src/stylesGaurang.css
+react-app/src/components/landing_page/landing_page.css
+react-app/src/components/testimonials/testimonials.css
+react-app/src/index.css
+react-app/src/App.css
