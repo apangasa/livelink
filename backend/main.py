@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 import json
-from machineLearning import recognize, return1
+from machineLearning import recognize, test_func
 from flask_cors import CORS
 
 
@@ -10,7 +10,7 @@ CORS(app)
 
 @app.route('/', methods=['GET'])
 def app_running():
-    x = return1()
+    x = test_func()
     return 'The server is running!' + str(x)
 
 
