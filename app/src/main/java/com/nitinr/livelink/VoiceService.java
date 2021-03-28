@@ -98,7 +98,7 @@ public class VoiceService extends Service
         queryListener = listener;
     }
 
-    public static void requestDataFromEndpoint(String url, String data) {
+    public void requestDataFromEndpoint(String url, String data) {
         JSONObject obj = new JSONObject();
 
         try {

@@ -11,8 +11,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.media.Image;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -46,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     private TransformableNode animNode;
     private TransformableNode profileNode;
 
+    private VoiceService voiceService;
+
     enum ArStatus { // Which AR type element to render
         PROFILE,
         ANIMATION_LOADING,
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
         startService(new Intent(this, VoiceService.class));
 
-        VoiceService voiceService = new VoiceService();
+        voiceService = new VoiceService();
         voiceService.setQueryListener(new VoiceService.QueryListener() {
             @Override
             public void onQueryCaptured(String query) {
@@ -220,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
 
             String base64 = ImageProcessing.processSnapShot(image, image.getWidth(), image.getHeight());
 
-            VoiceService.requestDataFromEndpoint("https://live-link-308404.ue.r.appspot.com/get_face", base64);
+            voiceService.requestDataFromEndpoint("https://live-link-308404.ue.r.appspot.com/get_face", base64);
 
         } catch (NotYetAvailableException e) {
             e.printStackTrace();
