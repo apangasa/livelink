@@ -228,6 +228,8 @@ public class MainActivity extends AppCompatActivity {
         linkButton.setBackgroundResource(R.drawable.rounded_corners_green);
         backgroundCard.setCardBackgroundColor(Color.parseColor("#55D862"));
         linkButton.setText("Linked");
+
+        //ConnectionList.addConnection(data);
     }
 
     private void snapShot() {
