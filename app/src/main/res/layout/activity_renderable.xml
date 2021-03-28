@@ -76,7 +76,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/numLinks" />
 
             <TextView
-                android:id="@+id/education"
+                android:id="@+id/bio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -107,7 +107,7 @@
                 android:textColor="#000000"
                 android:textSize="10sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/education" />
+                app:layout_constraintTop_toBottomOf="@+id/bio" />
 
             <Button
                 android:id="@+id/linkButton"

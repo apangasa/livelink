@@ -16,6 +16,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -26,6 +27,7 @@ import com.google.ar.sceneform.rendering.ViewRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Objects;
@@ -162,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
             profileNode = node;
             this.profileRenderable = viewRenderable;
 
-
+            updateProfile(viewRenderable, data);
         } else if (status == ArStatus.ANIMATION_LINKED) {
             animNode = node;
             GifImageView gifImageView = viewRenderable.getView().findViewById(R.id.gif);
@@ -172,6 +174,31 @@ public class MainActivity extends AppCompatActivity {
         Node render = new Node();
         render.setParent(node);
         render.setRenderable(viewRenderable);
+    }
+
+    private void updateProfile(ViewRenderable viewRenderable, JSONObject data) {
+        TextView nameView = viewRenderable.getView().findViewById(R.id.name);
+        TextView emailView = viewRenderable.getView().findViewById(R.id.email);
+        TextView bioView = viewRenderable.getView().findViewById(R.id.bio);
+        TextView linkView = viewRenderable.getView().findViewById(R.id.numLinks);
+
+        String name, email, bio, numLinks;
+        name = email = bio = numLinks = "";
+
+        try {
+            name = data.getString("name");
+            email = data.getString("email");
+            bio = data.getString("bio");
+            numLinks = data.getString("numLinks");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        nameView.setText(name);
+        emailView.setText(email);
+        bioView.setText(bio);
+        linkView.setText(numLinks);
     }
 
     private void linkWithUser() {
@@ -196,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-    
+
 
     @Override
     protected void onResume() {
