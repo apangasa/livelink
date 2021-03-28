@@ -79,10 +79,6 @@ public class MainActivity extends AppCompatActivity {
                     case "detect":
                         createRenderable(ArStatus.ANIMATION_LOADING, null);
 
-                        if (animNode != null) {
-                            animNode.setParent(null);
-                        }
-
                         snapShot();
                         break;
                     case "link":
@@ -104,7 +100,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataLoaded(JSONObject data) {
                 if (data != null) {
-                    createRenderable(ArStatus.PROFILE, data);
+                    MainActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (animNode != null) {
+                                animNode.setParent(null);
+                            }
+
+                            createRenderable(ArStatus.PROFILE, data);
+                        }
+                    });
                 }
             }
         });
@@ -187,11 +192,13 @@ public class MainActivity extends AppCompatActivity {
         profilePic = name = email = bio = numLinks = "";
 
         try {
-            profilePic = data.getString("profilePic");
-            name = data.getString("name");
-            email = data.getString("email");
-            bio = data.getString("bio");
-            numLinks = data.getString("numLinks");
+            JSONObject info = (JSONObject) data.get("id");
+
+            profilePic = info.getString("profilePic");
+            name = info.getString("name");
+            email = info.getString("email");
+            bio = info.getString("bio");
+            numLinks = info.getString("numLinkConnections") + " links";
 
         } catch (JSONException e) {
             e.printStackTrace();
