@@ -1,5 +1,7 @@
 package com.nitinr.livelink;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
@@ -48,5 +50,10 @@ public class ImageProcessing {
         YuvImage yuv = new YuvImage(nv21, ImageFormat.NV21, width, height, null);
         yuv.compressToJpeg(new Rect(0, 0, width, height), 100, out);
         return out.toByteArray();
+    }
+
+    public static Bitmap decodeImageToBitmap(String base64) {
+        byte[] decoded = Base64.decode(base64, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(decoded, 0, decoded.length);
     }
 }

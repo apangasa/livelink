@@ -16,6 +16,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,10 +51,6 @@ public class MainActivity extends AppCompatActivity {
         ANIMATION_LOADING,
         ANIMATION_LINKED
     }
-
-    // Ar element node position offsets
-    final private double Z_OFFSET = 0.5;
-    final private double Y_OFFSET = 0.1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,6 +141,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void addToScene(ViewRenderable viewRenderable, ArStatus status, JSONObject data) {
 
+        final double Z_OFFSET = 0.5;
+        final double Y_OFFSET = 0.1;
+
         Vector3 forward = arFragment.getArSceneView().getScene().getCamera().getForward();
         Vector3 worldPosition = arFragment.getArSceneView().getScene().getCamera().getWorldPosition();
         Vector3 position = Vector3.add(forward, worldPosition);
@@ -177,15 +177,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateProfile(ViewRenderable viewRenderable, JSONObject data) {
+        ImageView profileView = viewRenderable.getView().findViewById(R.id.profilePic);
         TextView nameView = viewRenderable.getView().findViewById(R.id.name);
         TextView emailView = viewRenderable.getView().findViewById(R.id.email);
         TextView bioView = viewRenderable.getView().findViewById(R.id.bio);
         TextView linkView = viewRenderable.getView().findViewById(R.id.numLinks);
 
-        String name, email, bio, numLinks;
-        name = email = bio = numLinks = "";
+        String profilePic, name, email, bio, numLinks;
+        profilePic = name = email = bio = numLinks = "";
 
         try {
+            profilePic = data.getString("profilePic");
             name = data.getString("name");
             email = data.getString("email");
             bio = data.getString("bio");
@@ -195,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        profileView.setImageBitmap(ImageProcessing.decodeImageToBitmap(profilePic));
         nameView.setText(name);
         emailView.setText(email);
         bioView.setText(bio);
