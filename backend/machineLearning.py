@@ -75,8 +75,12 @@ def download_feature_file():
 
 
 def get_next_class():
-    class_arr = download_class_file()
-    class_num = None
+    class_arr = None
+    class_num = 0
+    try:
+        class_arr = download_class_file()
+    except:
+        class_num = 0
     try:
         class_num = class_arr[-1, 0]
         class_num += 1
@@ -88,7 +92,7 @@ def get_next_class():
 def insert_new_class(class_id, person_id):
     class_arr = download_class_file()
     insert_arr = np.array([class_id, person_id])
-    new_class_arr = np.vstack(class_arr, insert_arr)
+    new_class_arr = np.vstack((class_arr, insert_arr))
 
     upload_class_file(new_class_arr)
 
@@ -96,16 +100,17 @@ def insert_new_class(class_id, person_id):
 def create_instance(base64string, class_id):
     features = get_features(base64string)
     class_arr = np.array([class_id])
-    full_arr = np.hstack(features, class_arr)
+    full_arr = np.hstack((features, class_arr))
 
     old_features = download_feature_file()
-    new_features = np.vstack(old_features, full_arr)
+    new_features = np.vstack((old_features, full_arr))
 
     upload_feature_file(new_features)
 
 
 def recognize(base64string):
     landmarks = faceRecog.get_landmarks(base64string, rotate=True)
+
     full_features = download_feature_file()
     features = full_features[:, :-1]
     classes = full_features[:, -1]
@@ -127,12 +132,14 @@ def get_id(class_num):
     return 0
 
 
-def test_upload():
+def test_upload(bucket_name):
     storage_client = storage.Client()
     bucket = storage_client.bucket('live-link-308404.appspot.com')
-    blob = bucket.blob('/test')
+    blob = bucket.blob('/' + bucket_name)
 
-    array = np.array([[1, 2], [3, 4]])
+    # array = np.array([[1, 2], [3, 4]])
+
+    array = np.array([])
 
     string = serialize_matrix(array)
 
