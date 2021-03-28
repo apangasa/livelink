@@ -90,13 +90,16 @@ public class MainActivity extends AppCompatActivity {
                         }
                         break;
                     case "off":
-                        if (animNode != null && profileNode != null) {
+                        if (animNode != null) {
                             animNode.setParent(null);
-                            profileNode.setParent(null);
-
-                            animNode = null;
-                            profileNode = null;
                         }
+
+                        if (profileNode != null) {
+                            profileNode.setParent(null);
+                        }
+
+                        animNode = null;
+                        profileNode = null;
                         break;
                 }
 
