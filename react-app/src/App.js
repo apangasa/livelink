@@ -2,50 +2,43 @@ import './App.css';
 /*import Open from './Open.js';*/
 import  {  FirebaseAuthConsumer,
   IfFirebaseAuthed,
-  IfFirebaseUnAuthed
+  IfFirebaseUnAuthed,
 } from '@react-firebase/auth';
 import firebase from "firebase/app";
 import "firebase/auth";
 import Open from './Open.js';
 import React from 'react';
+import Form from './Form.js'
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
-
     };
-
-
   }
 
   render() {
     return (
       <>
-      {/*<>
+      <>
       <IfFirebaseUnAuthed>
-      <button
-          onClick={() => {
-            const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
-            firebase.auth().signInWithPopup(googleAuthProvider);
-          }}
-        >
-          Sign In with Google
-        </button>
+
+        <Open />
+
       </IfFirebaseUnAuthed>
         <IfFirebaseAuthed>
-        <button
-          onClick={() => {
-            firebase.auth().signOut();
+        <FirebaseAuthConsumer>
+          {({ isSignedIn, user, providerId }) => {
+            return (
+              <>
+              <Form user={user} />
+              </>
+            );
           }}
-        >
-          Sign Out
-        </button>
-        <p> your signed in </p>
+        </FirebaseAuthConsumer>
+
+
         </IfFirebaseAuthed>
-      <p> hello world </p>
-      </>*/}
-      <Open />
+      </>
       </>
     )
   }

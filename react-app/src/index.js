@@ -4,8 +4,12 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import firebase from "firebase/app";
+import 'firebase/firestore';
 import "firebase/auth";
 import  {FirebaseAuthProvider} from '@react-firebase/auth';
+
+
+
 const firebaseConfig = {
   apiKey: "AIzaSyDFD4itev3V4n8m4663VaSjS0pTgoch7SY",
   authDomain: "livelink-6b88b.firebaseapp.com",
@@ -20,7 +24,6 @@ ReactDOM.render(
   <FirebaseAuthProvider firebase={firebase} {...firebaseConfig}>
   <App />
 </FirebaseAuthProvider>
-
   </React.StrictMode>,
   document.getElementById('root')
 );
