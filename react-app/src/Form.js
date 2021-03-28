@@ -2,6 +2,8 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import React from 'react';
 import './form.css';
+import Switch from 'react-switch'
+
 
 class Form extends React.Component {
   constructor(props) {
@@ -11,7 +13,7 @@ class Form extends React.Component {
       name: 'Sohil Kollipara',
       email: '',
       linkCount: 'loading',
-      isPrivate: 'loading',
+      isPrivate: false,
       bio: 'loading',
       profilePic: '',
       isPic: false,
@@ -23,6 +25,7 @@ class Form extends React.Component {
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChangeName = this.handleChangeName.bind(this);
+    this.handleChangePrivate = this.handleChangePrivate.bind(this)
   }
 
   getBase64 = file => {
@@ -71,6 +74,8 @@ class Form extends React.Component {
     });
   };
 
+
+
   handleSubmit(event) {
     alert('A name was submitted:' + this.state.name + '. The email is: ' + this.state.email);
     this.setState({submitted: true})
@@ -80,7 +85,7 @@ class Form extends React.Component {
     this.setState({name: event.target.value})
   }
   handleChangePrivate(event) {
-    this.setState({profilePic:!this.state.profilePic})
+    this.setState({isPrivate: !this.state.isPrivate})
   }
   componentDidMount() {
     console.log(this.props.user);
@@ -92,21 +97,27 @@ class Form extends React.Component {
   render() {
     return (
       <>
-      <button
+
+      <div className="main-content" >
+      <div style={{width: '100%vw', backgroundColor: 'purple'}}></div>
+
+  <div  className="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"  >
+
+    <div style={{backgroundColor:'#906CE0'}} className="mask bg">
+    <button
         onClick={() => {
           firebase.auth().signOut();
         }}
-      >
+      style={{color: 'white', backgroundColor: 'black'}}>
         Sign Out
       </button>
-      <div className="main-content">
-  <div className="header pb-8 pt-5 pt-lg-8 d-flex align-items-center" >
-    <span className="mask bg-gradient-default opacity-8"></span>
-    <div className="container-fluid d-flex align-items-center">
+    </div>
+    <div  className="container-fluid d-flex align-items-center">
+
       <div className="row width-wide">
         <div className="col-lg-7 col-md-10">
           <h1 className="display-2 text-white">Hello {this.state.name}</h1>
-          <p className="text-white mt-0 mb-5">This is your profile page. You can edit your LiveLink profile here!</p>
+          <p className="text-white mt-0 mb-5">This is your profile page. Tell us about yourself!</p>
         </div>
       </div>
     </div>
@@ -155,7 +166,10 @@ class Form extends React.Component {
                 <h3 className="mb-0">My account</h3>
               </div>
               <div className="col-4 text-right">
-                <a href="#!" className="btn btn-sm btn-primary"> {this.state.isPrivate ? "Private" : "Public" }</a>
+              <div>
+              <h5>{this.state.isPrivate ? "Private" : "Public" }</h5>
+                <Switch href="#!" onClick={() => this.handleChangePrivate} checked={this.isPrivate}></Switch>
+                </div>
               </div>
             </div>
           </div>
