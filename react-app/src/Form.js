@@ -173,6 +173,7 @@ fetch("https://cors-anywhere.herokuapp.com/http://129.213.124.196:3000/get?id="+
         onClick={() => {
           firebase.auth().signOut();
         }}
+        style={{backgroundColor: 'black', width: '140px', height:'50px', borderRadius: '20px', fontSize:'20px'}}
       className={"login manrope-bold-electric-violet-14px"}>
         Sign Out
       </button>
@@ -273,7 +274,7 @@ fetch("https://cors-anywhere.herokuapp.com/http://129.213.124.196:3000/get?id="+
               </div>
               <div className="pl-lg-4">
                 <div className="form-group focused">
-                  <button className={"login manrope-bold-electric-violet-14px"} onClick={this.handleSubmit}> Update</button>
+                  <button style={{backgroundColor: 'black', width: '140px', height:'50px', borderRadius: '20px', fontSize:'20px', color:'#906CE0'}}  onClick={this.handleSubmit}> Update</button>
                 </div>
               </div>
 
