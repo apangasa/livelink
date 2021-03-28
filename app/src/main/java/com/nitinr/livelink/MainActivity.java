@@ -77,7 +77,9 @@ public class MainActivity extends AppCompatActivity {
             public void onQueryCaptured(String query) {
                 switch (query) {
                     case "detect":
-                        createRenderable(ArStatus.ANIMATION_LOADING, null);
+                        if (animNode == null) {
+                            createRenderable(ArStatus.ANIMATION_LOADING, null);
+                        }
 
                         snapShot();
                         break;
@@ -91,6 +93,9 @@ public class MainActivity extends AppCompatActivity {
                         if (animNode != null && profileNode != null) {
                             animNode.setParent(null);
                             profileNode.setParent(null);
+
+                            animNode = null;
+                            profileNode = null;
                         }
                         break;
                 }
@@ -99,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onDataLoaded(JSONObject data) {
+
                 if (data != null) {
                     MainActivity.this.runOnUiThread(new Runnable() {
                         @Override
