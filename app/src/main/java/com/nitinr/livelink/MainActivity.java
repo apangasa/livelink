@@ -1,13 +1,14 @@
 package com.nitinr.livelink;
 
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.cardview.widget.CardView;
 
 
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
             public void onQueryCaptured(String query) {
                 switch (query) {
                     case "detect":
-                        createRenderable(ArStatus.ANIMATION_LOADING);
+                        createRenderable(ArStatus.ANIMATION_LOADING, null);
 
                         if (animNode != null) {
                             animNode.setParent(null);
@@ -88,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                     case "link":
                         if (profileNode != null) {
                             linkWithUser();
-                            createRenderable(ArStatus.ANIMATION_LINKED);
+                            createRenderable(ArStatus.ANIMATION_LINKED, null);
                         }
                         break;
                     case "off":
@@ -104,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataLoaded(JSONObject data) {
                 if (data != null) {
-                    createRenderable(ArStatus.PROFILE);
+                    createRenderable(ArStatus.PROFILE, data);
                 }
             }
         });
@@ -125,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    private void createRenderable(ArStatus status) {
+    private void createRenderable(ArStatus status, JSONObject data) {
 
         int layout = (status == ArStatus.ANIMATION_LOADING || status == ArStatus.ANIMATION_LINKED)?
                 R.layout.activity_animation : R.layout.activity_renderable;
@@ -134,12 +135,12 @@ public class MainActivity extends AppCompatActivity {
                 .setView(this, layout)
                 .build()
                 .thenAccept(viewRenderable -> {
-                    addToScene(viewRenderable, status);
+                    addToScene(viewRenderable, status, data);
                 });
     }
 
 
-    private void addToScene(ViewRenderable viewRenderable, ArStatus status) {
+    private void addToScene(ViewRenderable viewRenderable, ArStatus status, JSONObject data) {
 
         Vector3 forward = arFragment.getArSceneView().getScene().getCamera().getForward();
         Vector3 worldPosition = arFragment.getArSceneView().getScene().getCamera().getWorldPosition();
@@ -160,6 +161,8 @@ public class MainActivity extends AppCompatActivity {
         } else if (status == ArStatus.PROFILE){
             profileNode = node;
             this.profileRenderable = viewRenderable;
+
+
         } else if (status == ArStatus.ANIMATION_LINKED) {
             animNode = node;
             GifImageView gifImageView = viewRenderable.getView().findViewById(R.id.gif);
@@ -174,8 +177,10 @@ public class MainActivity extends AppCompatActivity {
     private void linkWithUser() {
         View profileView = profileRenderable.getView();
         Button linkButton = profileView.findViewById(R.id.linkButton);
+        CardView backgroundCard = profileView.findViewById(R.id.cardView);
 
         linkButton.setBackgroundResource(R.drawable.rounded_corners_green);
+        backgroundCard.setCardBackgroundColor(Color.parseColor("#55D862"));
         linkButton.setText("Linked");
     }
 
