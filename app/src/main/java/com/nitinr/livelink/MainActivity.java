@@ -196,26 +196,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
-//    private void onSceneUpdate(FrameTime frameTime) {
-//
-//        final Handler handler = new Handler(Looper.getMainLooper());
-//        handler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    Image image = Objects.requireNonNull(arFragment.getArSceneView().getArFrame()).acquireCameraImage();
-//
-//                    String base64 = ImageProcessing.processSnapShot(image, image.getWidth(), image.getHeight());
-//
-//                    Log.d(TAG, "end");
-//                } catch (NotYetAvailableException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }, 5000);
-//
-//    }
+    
 
     @Override
     protected void onResume() {
