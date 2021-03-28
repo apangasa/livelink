@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">LiveLink</string>
     <string name="name">Nitin Ramadoss</string>
+    <string name="link">Link</string>
 </resources>

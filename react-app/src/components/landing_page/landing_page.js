@@ -10,13 +10,13 @@ function Landingpage(props) {
   return (
       <div>
 
-    <div className="landingpage" style={{ backgrounColour: 'blue', width: '100%'}}>
+
+    <div className="landingpage" style={{ width: '100%'}}>
       <div style = {{backgroundColor: 'blue'}}>
       <div className="overlap-group">
         <div className="content">
           <div className="header-copy">
             <h1 className="title manrope-extra-bold-eerie-black-72px">Connect over AR</h1>
-            <div className="text-1 manrope-normal-eerie-black-18px">At Livelink, we believe seeing is connecting!</div>
             </div>
             <div className="adjustable-primary-large">
               <div className="label manrope-bold-white-20px">Create your Livelink avatar/profile</div>

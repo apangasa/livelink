@@ -10,11 +10,11 @@ class Form extends React.Component {
     super(props);
     this.state = {
       loading: true,
-      name: 'Sohil Kollipara',
+      name: '',
       email: '',
       linkCount: 'loading',
       isPrivate: false,
-      bio: 'loading',
+      bio: '',
       profilePic: '',
       isPic: false,
       newName:'',
@@ -25,6 +25,7 @@ class Form extends React.Component {
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChangeName = this.handleChangeName.bind(this);
+    this.handleChangeBio = this.handleChangeBio.bind(this);
     this.handleChangePrivate = this.handleChangePrivate.bind(this)
   }
 
@@ -62,7 +63,8 @@ class Form extends React.Component {
         console.log("File Is", file);
         this.setState({
           base64URL: result,
-          file
+          file,
+          profilePic: result
         });
       })
       .catch(err => {
@@ -77,22 +79,85 @@ class Form extends React.Component {
 
 
   handleSubmit(event) {
-    alert('A name was submitted:' + this.state.name + '. The email is: ' + this.state.email);
-    this.setState({submitted: true})
+    let myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    let body = JSON.stringify({
+        name: this.state.newName,
+        email: this.state.email,
+        numLinkConnections: this.state.linkCount,
+        isPrivate: this.state.isPrivate,
+        bio: this.state.newBio,
+        profilePic: this.state.profilePic
+    });
+
+  let requestOptions = {
+  method: 'POST',
+  redirect: 'follow',
+  body: body,
+  headers: myHeaders
+  };
+
+    fetch("https://cors-anywhere.herokuapp.com/http://129.213.124.196:3000/insert-profile?id="+this.props.user.uid, requestOptions)
+    this.setState({name: this.state.newName,
+    bio: this.state.newBio
+    })
     event.preventDefault();
   }
+  handleChangePrivate() {
+    this.setState({isPrivate: !this.state.isPrivate});
+  }
   handleChangeName(event) {
-    this.setState({name: event.target.value})
+    this.setState({newName: event.target.value})
+  }
+  handleChangeBio(event) {
+    this.setState({newBio: event.target.value})
   }
   handleChangePrivate(event) {
     this.setState({isPrivate: !this.state.isPrivate})
   }
   componentDidMount() {
     console.log(this.props.user);
+    let requestOptions = {
+  method: 'GET',
+  redirect: 'follow'
+};
+  let output;
+  console.log("hello");
+fetch("https://cors-anywhere.herokuapp.com/http://129.213.124.196:3000/get?id="+this.props.user.uid, requestOptions)
+  .then(response => response.json())
+  .then(data => {
+    this.setState({
+      bio: data.bio,
+      name: data.name,
+      isPrivate: data.isPrivate,
+      linkCount: data.numLinkConnections,
+      profilePic: data.profilePic
+    });
+  })
+  .catch(error => {
+    console.log("hello3")
+    this.setState({
+      loading: false,
+    name: 'Add Name',
+    linkCount: 0,
+    isPrivate: false,
+    bio: 'Add bio!',
+    profilePic: '',
+    isPic: false,
+    newName:'',
+    newBio: '',
+    file: null,
+    base64URL: ""})
+
+    console.log('error', error)}
+  );
     //send to raghu, then set loading false
     //if return no user, do form for new data
     //if data returned show data
-    //
+    console.log(output);
+    console.log("user recieved");
+
+
   }
   render() {
     return (
@@ -108,7 +173,8 @@ class Form extends React.Component {
         onClick={() => {
           firebase.auth().signOut();
         }}
-      style={{color: 'white', backgroundColor: 'black'}}>
+        style={{backgroundColor: 'black', width: '140px', height:'50px', borderRadius: '20px', fontSize:'20px'}}
+      className={"login manrope-bold-electric-violet-14px"}>
         Sign Out
       </button>
     </div>
@@ -129,20 +195,22 @@ class Form extends React.Component {
           <div className="row justify-content-center">
             <div className="col-lg-3 order-lg-2">
               <div className="card-profile-image">
-                <a href="#">
-                <input type="file" name="file" onChange={this.handleFileInputChange} />
-                {this.state.profilePic ? <img src={`data:image/png;base64,${this.state.profilePic}`} className={"rounded-circle"}/>: '' }
-                </a>
+                {this.state.profilePic ? <img src={this.state.profilePic} className={"rounded-circle"}/>: '' }
               </div>
+
             </div>
+
           </div>
+
           <div className="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+
           </div>
           <div className="card-body pt-0 pt-md-4">
             <div className="row">
               <div className="col">
                 <div className="card-profile-stats d-flex justify-content-center mt-md-5">
                   <div>
+                  <input type="file" name="file" onChange={this.handleFileInputChange} />
                     <span className="heading">{this.state.linkCount}</span>
                     <span className="description">Links</span>
                   </div>
@@ -168,7 +236,7 @@ class Form extends React.Component {
               <div className="col-4 text-right">
               <div>
               <h5>{this.state.isPrivate ? "Private" : "Public" }</h5>
-                <Switch href="#!" onClick={() => this.handleChangePrivate} checked={this.isPrivate}></Switch>
+                <Switch href="#!" onChange={this.handleChangePrivate} checked={this.state.isPrivate}></Switch>
                 </div>
               </div>
             </div>
@@ -181,13 +249,13 @@ class Form extends React.Component {
                   <div className="col-lg-6">
                     <div className="form-group focused">
                       <label className="form-control-label" htmlFor="input-username">Name</label>
-                      <input type="text" id="input-username" className="form-control form-control-alternative" value={this.state.name} />
+                      <input type="text" id="input-username" className="form-control form-control-alternative" onChange={this.handleChangeName} defaultValue={this.state.name} />
                     </div>
                   </div>
                   <div className="col-lg-6">
                     <div className="form-group">
                       <label className="form-control-label" htmlFor="input-email">Email address</label>
-                      <input type="email" id="input-email" className="form-control form-control-alternative" value={this.props.user.email} />
+                      <input type="email" id="input-email" className="form-control form-control-alternative" defaultValue={this.props.user.email} />
                     </div>
                   </div>
                 </div>
@@ -201,9 +269,15 @@ class Form extends React.Component {
               <div className="pl-lg-4">
                 <div className="form-group focused">
                   <label>About Me</label>
-                  <textarea rows="4" className="form-control form-control-alternative" placeholder="A few words about you ...">A beautiful Dashboard for Bootstrap 4. It is Free and Open Source.</textarea>
+                  <textarea rows="4" className="form-control form-control-alternative" onChange={this.handleChangeBio} defaultValue={this.state.bio}></textarea>
                 </div>
               </div>
+              <div className="pl-lg-4">
+                <div className="form-group focused">
+                  <button style={{backgroundColor: 'black', width: '140px', height:'50px', borderRadius: '20px', fontSize:'20px', color:'#906CE0'}}  onClick={this.handleSubmit}> Update</button>
+                </div>
+              </div>
+
             </form>
           </div>
         </div>
